@@ -1,12 +1,12 @@
-#include <Carbon.h>
+#include <Carbon.hpp>
 
-class TestApp : Carbon::Application
+class TestApp : public Carbon::Application
 {
 private:
   
 public:
-  TestApp();
-  ~TestApp();
+  TestApp() {};
+  ~TestApp() {};
 };
 
 Carbon::Application* Carbon::CreateApplication()
