@@ -1,15 +1,17 @@
+#include "TestApp.hpp"
 #include <Carbon.hpp>
 
-class TestApp : public Carbon::Application
-{
-private:
-  
-public:
-  TestApp() {};
-  ~TestApp() {};
-};
+#include <iostream>
 
-Carbon::Application* Carbon::CreateApplication()
+Carbon::Serial* serial;
+
+void TestApp::Init()
 {
-  return new TestApp();
+  this->ExitCondition = true;
+  serial = new Carbon::Serial({9600, "/dev/ttyACM0"});
+}
+
+void TestApp::Update()
+{
+  serial->readBytes();
 }
