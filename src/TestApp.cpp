@@ -4,6 +4,9 @@
 #include <GLFW/glfw3.h>
 
 #include <iostream>
+#include <chrono>
+#include <sstream>
+#include <iomanip>
 
 #include <imgui.h>
 #include <backends/imgui_impl_glfw.h>
@@ -13,6 +16,22 @@ Carbon::Serial* serial;
 Carbon::Window* window;
 float f;
 
+std::string currentTime(std::chrono::time_point<std::chrono::system_clock> now)
+{
+    // you need to get milliseconds explicitly
+    auto milliseconds = std::chrono::duration_cast<std::chrono::milliseconds>(
+        now.time_since_epoch()
+        ) % 1000;
+    // and that's a "normal" point of time with seconds
+    auto timeNow = std::chrono::system_clock::to_time_t(now);
+
+    std::ostringstream currentTimeStream;
+    currentTimeStream << std::put_time(localtime(&timeNow), "%d.%m.%Y %H:%M:%S")
+                      << "." << std::setfill('0') << std::setw(3) << milliseconds.count()
+                      << " " << std::put_time(localtime(&timeNow), "%z");
+
+    return currentTimeStream.str();
+}
 void TestApp::Init()
 {
   // serial = new Carbon::Serial({9600, "/dev/ttyACM0"});
@@ -37,11 +56,11 @@ void TestApp::Update()
 
   ImGui::SetNextWindowBgAlpha(0.7f);
   // create a window and append into it
-  ImGui::Begin("Controls", NULL, ImGuiWindowFlags_NoResize);
+  ImGui::Begin("Controls", NULL, NULL);
 
   ImGui::Dummy(ImVec2(0.0f, 1.0f));
   ImGui::TextColored(ImVec4(1.0f, 0.0f, 1.0f, 1.0f), "Time");
-  ImGui::Text("%s", "lmao");
+  ImGui::Text("%s", currentTime(std::chrono::system_clock::now()).c_str());
   ImGui::End();
 
   ImGui::Render();
