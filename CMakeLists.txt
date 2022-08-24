@@ -14,4 +14,4 @@ add_subdirectory(./libs/Carbon/)
 
 add_executable(Application ./src/TestApp.cpp)
 target_include_directories(Application PUBLIC ./libs/Carbon/src/)
-target_link_libraries(Application PRIVATE Carbon)
+target_link_libraries(Application PUBLIC Carbon)
