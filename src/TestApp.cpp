@@ -5,16 +5,19 @@
 
 #include <iostream>
 #include <chrono>
+#include <iterator>
 #include <sstream>
 #include <iomanip>
+#include <thread>
 
 #include <imgui.h>
 #include <backends/imgui_impl_glfw.h>
 #include <backends/imgui_impl_opengl3.h>
 
-Carbon::Serial* serial;
+Carbon::Module::Serial* serial;
 Carbon::Window* window;
 float f;
+int pwm;
 
 std::string currentTime(std::chrono::time_point<std::chrono::system_clock> now)
 {
@@ -24,31 +27,31 @@ std::string currentTime(std::chrono::time_point<std::chrono::system_clock> now)
         ) % 1000;
     // and that's a "normal" point of time with seconds
     auto timeNow = std::chrono::system_clock::to_time_t(now);
-
-    std::ostringstream currentTimeStream;
+std::ostringstream currentTimeStream;
     currentTimeStream << std::put_time(localtime(&timeNow), "%d.%m.%Y %H:%M:%S")
                       << "." << std::setfill('0') << std::setw(3) << milliseconds.count()
                       << " " << std::put_time(localtime(&timeNow), "%z");
 
     return currentTimeStream.str();
 }
+
 void TestApp::Init()
 {
-  // serial = new Carbon::Serial({9600, "/dev/ttyACM0"});
+  serial = new Carbon::Module::Serial({9600, "/dev/ttyUSB0"});
   window = new Carbon::Window();
   this->ExitCondition = !glfwWindowShouldClose(window->window);
   // glClearColor(1.0, 0, 0, 0);
   ImGui::CreateContext();
   ImGui_ImplGlfw_InitForOpenGL(window->window, true);
   ImGui_ImplOpenGL3_Init();
+
 }
 
 void TestApp::Update()
 {
   this->ExitCondition = !glfwWindowShouldClose(window->window);
-  // serial->readLine();
+  // serial->writeTestArduino();
   glClear(GL_COLOR_BUFFER_BIT);
-
   ImGui_ImplOpenGL3_NewFrame();
   ImGui_ImplGlfw_NewFrame();
 
@@ -61,6 +64,12 @@ void TestApp::Update()
   ImGui::Dummy(ImVec2(0.0f, 1.0f));
   ImGui::TextColored(ImVec4(1.0f, 0.0f, 1.0f, 1.0f), "Time");
   ImGui::Text("%s", currentTime(std::chrono::system_clock::now()).c_str());
+  if(ImGui::SliderAngle("Le Angle", &f))
+      std::cout<<f<<std::endl;
+  if(ImGui::SliderInt("PWM val", &pwm, 0, 100))
+  {
+    serial->writeInt(pwm);
+  }
   ImGui::End();
 
   ImGui::Render();
@@ -68,4 +77,6 @@ void TestApp::Update()
 
   glfwSwapBuffers(window->window);
   glfwPollEvents();
+
+  serial->readLine();
 }
