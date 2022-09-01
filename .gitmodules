@@ -1,5 +1,3 @@
 [submodule "libs/Carbon"]
 	path = libs/Carbon
-	url = https://github.com/muffledMitosis/Carbon.git
-[submodule ".\\libs\\Carbon"]
 	url = git@github.com:muffledMitosis/Carbon.git
