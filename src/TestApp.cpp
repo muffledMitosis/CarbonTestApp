@@ -53,6 +53,10 @@ void TestApp::Init()
 
 	Graphics::VBO* vbo = new Graphics::VBO();
 	vbo->BufferData(vertices, GL_STATIC_DRAW);
+
+	Graphics::VAO* vao = new Graphics::VAO();
+	vao->spec(0, 3, GL_DOUBLE, 3 * sizeof(double), 0);
+
 }
 
 void TestApp::Update()
@@ -60,6 +64,8 @@ void TestApp::Update()
 	this->ExitCondition = !glfwWindowShouldClose(window->window);
 	serial->writeTestArduino();
 	glClear(GL_COLOR_BUFFER_BIT);
+
+	glDrawArrays(GL_TRIANGLES, 0, 3);
 
 	glfwSwapBuffers(window->window);
 	glfwPollEvents();
