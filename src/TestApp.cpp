@@ -1,5 +1,4 @@
 #include "TestApp.hpp"
-#include "Engine/Graphics/OpenGL/API/Buffers.hpp"
 
 #include <GLFW/glfw3.h>
 #include <glad/glad.h>
@@ -57,6 +56,10 @@ void TestApp::Init()
 	Graphics::VAO* vao = new Graphics::VAO();
 	vao->spec(0, 3, GL_DOUBLE, 3 * sizeof(double), 0);
 
+	Graphics::Shader* shader = new Graphics::Shader(
+		"C:\\dev\\CarbonTestApp\\libs\\Carbon\\Assets\\basic.vert",
+		"C:\\dev\\CarbonTestApp\\libs\\Carbon\\Assets\\basic.frag");
+	// std::cout << Utils::readFile() << std::endl;
 }
 
 void TestApp::Update()
