@@ -34,8 +34,8 @@ std::string currentTime(std::chrono::time_point<std::chrono::system_clock> now)
 	return currentTimeStream.str();
 }
 
-std::vector<double> vertices =
-	{-0.5f, -0.5f, 0.0f, 0.5f, -0.5f, 0.0f, 0.0f, 0.5f, 0.0f};
+std::vector<double> vertices
+	= {-0.5f, -0.5f, 0.0f, 0.5f, -0.5f, 0.0f, 0.0f, 0.5f, 0.0f};
 
 void TestApp::Init()
 {
@@ -43,8 +43,8 @@ void TestApp::Init()
 	{
 		std::cout << "Could not initialize glfw" << std::endl;
 	}
-	serial = new Carbon::Module::Serial({9600, "/dev/ttyUSB0"});
-	window = new Carbon::ApplicationWindow();
+	serial							= new Carbon::Module::Serial({9600, "/dev/ttyUSB0"});
+	window							= new Carbon::ApplicationWindow();
 	this->ExitCondition = !glfwWindowShouldClose(window->window);
 	// glfwMakeContextCurrent(window->window);
 	gladLoadGL();
@@ -60,6 +60,7 @@ void TestApp::Init()
 		"C:\\dev\\CarbonTestApp\\libs\\Carbon\\Assets\\basic.vert",
 		"C:\\dev\\CarbonTestApp\\libs\\Carbon\\Assets\\basic.frag");
 	// std::cout << Utils::readFile() << std::endl;
+	Graphics::Texture* t = new Graphics::Texture("lol");
 }
 
 void TestApp::Update()

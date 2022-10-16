@@ -5,15 +5,14 @@
 class TestApp : public Carbon::Application
 {
 private:
-  
 public:
-  void Init();
-  TestApp() {Init();};
-  void Update();
-  ~TestApp() {};
+	void Init();
+	TestApp() { Init(); };
+	void Update();
+	~TestApp() {};
 };
 
 Carbon::Application* Carbon::CreateApplication()
 {
-  return new TestApp();
+	return new TestApp();
 }
