@@ -59,7 +59,6 @@ void TestApp::Init()
 	Graphics::Shader* shader = new Graphics::Shader(
 		"C:\\dev\\CarbonTestApp\\libs\\Carbon\\Assets\\basic.vert",
 		"C:\\dev\\CarbonTestApp\\libs\\Carbon\\Assets\\basic.frag");
-	// std::cout << Utils::readFile() << std::endl;
 }
 
 void TestApp::Update()
